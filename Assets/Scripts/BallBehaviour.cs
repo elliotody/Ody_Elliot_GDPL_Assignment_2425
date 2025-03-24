@@ -68,7 +68,7 @@ public class Ball : MonoBehaviour
     }
 
     // Resets the ball to its initial state
-    void resetBall()
+    public void resetBall()
     {
         if (!rb.isKinematic)
         {
