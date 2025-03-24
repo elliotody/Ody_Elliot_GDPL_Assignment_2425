@@ -4,13 +4,9 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    // Reference to the trajectory line
-    [SerializeField] private TrajectoryLine tl;
-
     // Speed and physics-related properties
     [SerializeField] private float maxSpeed = 25f;
     [SerializeField] private float minSpeed = 5f;
-    [SerializeField] private float gravitySpeed = 9.8f;
 
     private int currentPower = 10; // Represents power level affecting speed
     private float currentSpeed = 0f; // Current ball speed
@@ -23,10 +19,15 @@ public class Ball : MonoBehaviour
     [SerializeField] private float xAngleChange = 10f;
     private float currentXAngle = 0f;
 
+    private Vector3 originalPos;
+
     private Rigidbody rb; // Rigidbody component reference
+    private TrajectoryLine tl; // Reference to the trajectory line
 
     void Start()
     {
+        originalPos = transform.position; // Set the balls initial position for reset
+        tl = GetComponent<TrajectoryLine>(); // Get TrajectoryLine component
         rb = GetComponent<Rigidbody>(); // Get Rigidbody component
         SpeedChangeAmount = (maxSpeed - minSpeed) / 10; // Determine step size for speed changes
         currentSpeed = maxSpeed; // Start with maximum speed
@@ -53,16 +54,10 @@ public class Ball : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R)) { resetBall(); }
     }
 
-    void LateUpdate()
-    {
-        // Apply gravity manually when ball is in motion (gives more control)
-        if (rb.isKinematic == false) { rb.velocity -= new Vector3(0f, gravitySpeed * Time.deltaTime, 0f); }
-    }
-
     // Shoots the ball in the direction it's facing (as a coroutine so the timer works)
     IEnumerator shootBall()
     {
-        if (tl != null) { tl.hideIndicators(); } // Hide trajectory indicators when the ball is shot
+        //if (tl != null) { tl.hideIndicators(); } // Hide trajectory indicators when the ball is shot
         if (rb.isKinematic)
         {
             rb.isKinematic = false; // Enable physics
@@ -77,7 +72,8 @@ public class Ball : MonoBehaviour
     {
         if (!rb.isKinematic)
         {
-            rb.velocity = transform.localPosition = new Vector3(0, 0, 0); // Reset position and velocity
+            rb.velocity = new Vector3(0, 0, 0); // Reset velocity
+            transform.position = originalPos; // Reset position
             rb.rotation = Quaternion.Euler(0f, 0f, 0f); // Reset rotation
             rb.isKinematic = true; // Disable physics
             StopAllCoroutines(); // Stops the shootBall() coroutine from resetting
@@ -127,8 +123,8 @@ public class Ball : MonoBehaviour
         if (tl != null && rb.isKinematic)
         {
             Vector3 u = rb.transform.forward.normalized * currentSpeed;
-            tl.rb.rotation = Quaternion.Euler(0f, currentXAngle, 0f);
-            tl.createPrediction(u.z, u.y, 0f, -gravitySpeed);
+            //tl.rb.rotation = Quaternion.Euler(0f, currentXAngle, 0f);
+            tl.createPrediction(u.z, u.y, u.x, 0f, Physics.gravity.y, 0f);
         }
     }
 }

@@ -6,36 +6,31 @@ public class TrajectoryLine : MonoBehaviour
 {
     // Prefab for trajectory indicator points
     [SerializeField] private GameObject indicatorPrefab;
-    // Reference to the Ball object
-    [SerializeField] private Ball ball;
     // Number of indicators used to visualize the trajectory
     [SerializeField] private int numOfIndicators = 6;
     // Time step between each indicator point (the gap between the points)
     [SerializeField] private float timeStep = 0.01f;
 
     private List<GameObject> indicators; // List to store indicator objects
-    public Rigidbody rb; // Rigidbody component reference
 
     private void Start()
     {
-        transform.position = ball.transform.position; // Set initial position to match the ball
-        rb = transform.GetComponent<Rigidbody>(); // Get Rigidbody component
         indicators = new List<GameObject>(); // Initialize the list
 
         // Instantiate indicator objects and store them in the list
         for (int i = 0; i < numOfIndicators; i++)
         {
             GameObject newIndicator = Instantiate(indicatorPrefab);
-            newIndicator.transform.parent = transform; // Set parent to apply rotations easier
+            newIndicator.transform.parent = transform.parent; // Set parent to apply rotations easier
             indicators.Add(newIndicator);
         }
         hideIndicators(); // Hide indicators after they are created
     }
 
     // Creates the predicted trajectory based on the ball's initial velocity and acceleration
-    public void createPrediction(float ux, float uy, float ax, float ay)
+    public void createPrediction(float ux, float uy, float uz, float ax, float ay, float az)
     {
-        Vector2 pos = new Vector2(); // Position variable for SUVAT
+        Vector3 pos = new Vector3(); // Position variable for SUVAT
         float t = 0f; // Time variable for SUVAT
 
         // Loop through indicators and calculate their positions
@@ -46,9 +41,10 @@ public class TrajectoryLine : MonoBehaviour
             // Apply kinematic equations for projectile motion (YAY MATHS!)
             pos.x = (ux * t) + (0.5f * ax * t * t);
             pos.y = (uy * t) + (0.5f * ay * t * t);
+            pos.z = (uz * t) + (0.5f * az * t * t);
 
             // Update indicator position relative to the ball
-            indicators[i].transform.localPosition = new Vector3(0f, pos.y, pos.x);
+            indicators[i].transform.localPosition = new Vector3(pos.z, pos.y, pos.x) + transform.localPosition;
         }
 
         showIndicators(); // Make indicators visible
