@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    // Speed and physics-related properties
+    // Speed properties
     [SerializeField] private float maxSpeed = 25f;
     [SerializeField] private float minSpeed = 5f;
 
     private int currentPower = 10; // Represents power level affecting speed
     private float currentSpeed = 0f; // Current ball speed
-    private float SpeedChangeAmount; // Change in speed between power levels
+    private float speedChangeAmount; // Change in speed between power levels
 
     // Rotation angles for aiming
+    [SerializeField] private float maxXAngle = 45f;
+
     [SerializeField] private float yAngleChange = 10f;
     private float currentYAngle = 0f;
 
     [SerializeField] private float xAngleChange = 10f;
     private float currentXAngle = 0f;
 
-    private Vector3 originalPos;
+    private Vector3 originalPos; // The original position of the ball
 
     private Rigidbody rb; // Rigidbody component reference
     private TrajectoryLine tl; // Reference to the trajectory line
@@ -29,16 +31,15 @@ public class Ball : MonoBehaviour
         originalPos = transform.position; // Set the balls initial position for reset
         tl = GetComponent<TrajectoryLine>(); // Get TrajectoryLine component
         rb = GetComponent<Rigidbody>(); // Get Rigidbody component
-        SpeedChangeAmount = (maxSpeed - minSpeed) / 10; // Determine step size for speed changes
+        speedChangeAmount = (maxSpeed - minSpeed) / 10; // Determine step size for speed changes
         currentSpeed = maxSpeed; // Start with maximum speed
-        updateTrajectoryLine(); // Make the trajectory visuals
     }
 
     void Update()
     {
-        // Adjust power and speed with J/K keys
-        if (Input.GetKeyDown(KeyCode.J)) { currentPower += 1; updateCurrentSpeed(SpeedChangeAmount); }
-        if (Input.GetKeyDown(KeyCode.K)) { currentPower -= 1; updateCurrentSpeed(-SpeedChangeAmount); }
+        // Adjust speed with J/K keys
+        if (Input.GetKeyDown(KeyCode.J)) { currentPower += 1; updateCurrentSpeed(speedChangeAmount); }
+        if (Input.GetKeyDown(KeyCode.K)) { currentPower -= 1; updateCurrentSpeed(-speedChangeAmount); }
 
         // Adjust vertical aim angle with W/S keys
         if (Input.GetKey(KeyCode.W)) { updateYAngle(yAngleChange); }
@@ -57,7 +58,8 @@ public class Ball : MonoBehaviour
     // Shoots the ball in the direction it's facing (as a coroutine so the timer works)
     IEnumerator shootBall()
     {
-        //if (tl != null) { tl.hideIndicators(); } // Hide trajectory indicators when the ball is shot
+        GameManager.instance.useShots(); // Uses up a shot
+        if (tl != null) { tl.hideIndicators(); } // Hide trajectory indicators when the ball is shot
         if (rb.isKinematic)
         {
             rb.isKinematic = false; // Enable physics
@@ -72,12 +74,14 @@ public class Ball : MonoBehaviour
     {
         if (!rb.isKinematic)
         {
-            rb.velocity = new Vector3(0, 0, 0); // Reset velocity
+            currentXAngle = currentYAngle = 0f;
+            rb.velocity = new Vector3(0f, 0f, 0f); // Reset velocity
             transform.position = originalPos; // Reset position
             rb.rotation = Quaternion.Euler(0f, 0f, 0f); // Reset rotation
             rb.isKinematic = true; // Disable physics
             StopAllCoroutines(); // Stops the shootBall() coroutine from resetting
             updateTrajectoryLine(); // Update trajectory visualization
+            tl.hideIndicators(); // Hides the indicators
         }
     }
 
@@ -98,8 +102,8 @@ public class Ball : MonoBehaviour
     {
         currentXAngle += value * Time.deltaTime;
         // Clamp horizontal angle between -45 and 45 degrees
-        if (currentXAngle < -45) { currentXAngle = -45; }
-        else if (currentXAngle > 45) { currentXAngle = 45; }
+        if (currentXAngle < -maxXAngle) { currentXAngle = -maxXAngle; }
+        else if (currentXAngle > maxXAngle) { currentXAngle = maxXAngle; }
 
         rb.rotation = Quaternion.Euler(-currentYAngle, currentXAngle, rb.rotation.z);
         updateTrajectoryLine(); // Refresh trajectory visualization

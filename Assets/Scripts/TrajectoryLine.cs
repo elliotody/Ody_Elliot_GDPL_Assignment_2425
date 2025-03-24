@@ -30,7 +30,7 @@ public class TrajectoryLine : MonoBehaviour
     // Creates the predicted trajectory based on the ball's initial velocity and acceleration
     public void createPrediction(float ux, float uy, float uz, float ax, float ay, float az)
     {
-        Vector3 pos = new Vector3(); // Position variable for SUVAT
+        Vector3 pos = new(); // Position variable for SUVAT
         float t = 0f; // Time variable for SUVAT
 
         // Loop through indicators and calculate their positions
