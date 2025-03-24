@@ -72,6 +72,7 @@ public class Ball : MonoBehaviour
     // Resets the ball to its initial state
     public void resetBall()
     {
+
         if (!rb.isKinematic)
         {
             currentXAngle = currentYAngle = 0f;
