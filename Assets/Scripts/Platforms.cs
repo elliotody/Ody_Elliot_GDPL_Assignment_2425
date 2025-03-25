@@ -6,13 +6,18 @@ public class Platforms : MonoBehaviour
 {
     void Start()
     {
-        
+        GameManager.instance.objectivesLeft += countObjectives();
     }
 
     int countObjectives()
     {
-        foreach(BlueCollectable b in this.gameObject.transform.getchild)
+        int i = 0;
 
-        return;
+        foreach (BlueCollectable b in transform.GetComponentsInChildren<BlueCollectable>())
+        {
+            i++;
+        }
+
+        return i;
     }
 }

@@ -33,6 +33,8 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody>(); // Get Rigidbody component
         speedChangeAmount = (maxSpeed - minSpeed) / 10; // Determine step size for speed changes
         currentSpeed = maxSpeed; // Start with maximum speed
+
+        updateHUD(); // Updates the HUD
     }
 
     void Update()
@@ -58,7 +60,6 @@ public class Player : MonoBehaviour
     // Shoots the ball in the direction it's facing (as a coroutine so the timer works)
     IEnumerator shootBall()
     {
-        GameManager.instance.useShots(); // Uses up a shot
         if (tl != null) { tl.hideIndicators(); } // Hide trajectory indicators when the ball is shot
         if (rb.isKinematic)
         {
@@ -72,9 +73,9 @@ public class Player : MonoBehaviour
     // Resets the ball to its initial state
     public void resetBall()
     {
-
         if (!rb.isKinematic)
         {
+            GameManager.instance.useShots(); // Uses up a shot
             currentXAngle = currentYAngle = 0f;
             rb.velocity = new Vector3(0f, 0f, 0f); // Reset velocity
             transform.position = originalPos; // Reset position
@@ -130,6 +131,15 @@ public class Player : MonoBehaviour
             Vector3 u = rb.transform.forward.normalized * currentSpeed;
             //tl.rb.rotation = Quaternion.Euler(0f, currentXAngle, 0f);
             tl.createPrediction(u.z, u.y, u.x, 0f, Physics.gravity.y, 0f);
+            updateHUD();
         }
+    }
+
+    // Updates the HUD
+    public void updateHUD()
+    {
+        HUD.instance.setElevation((int)currentYAngle);
+        HUD.instance.setHorizontal((int)currentXAngle);
+        HUD.instance.setPower(currentPower);
     }
 }
