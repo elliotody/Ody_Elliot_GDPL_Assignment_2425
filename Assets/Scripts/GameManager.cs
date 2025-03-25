@@ -7,12 +7,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [SerializeField] Ball player;
+    [SerializeField] Player player;
 
     [HideInInspector]
     public int shotsLeft = 10;
     [HideInInspector]
-    public int objectivesAchieved = 0;
+    public int objectivesLeft;
 
     private void Awake()
     {
@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
 
     public void objectiveShot()
     {
-        objectivesAchieved += 1;
+        objectivesLeft -= 1;
         player.resetBall();
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ball : MonoBehaviour
+public class Player : MonoBehaviour
 {
     // Speed properties
     [SerializeField] private float maxSpeed = 25f;
