@@ -131,8 +131,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f634559f6bd37604fb60754b1b870098, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 25
-  minSpeed: 15
+  maxSpeed: 12
+  minSpeed: 6
   maxXAngle: 45
   yAngleChange: 50
   xAngleChange: 50
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   indicatorPrefab: {fileID: 5731585603014487063, guid: ed4fb6eec35cad54f836df23c653e42e, type: 3}
   numOfIndicators: 20
-  timeStep: 0.04
+  timeStep: 0.03
 --- !u!23 &6913488980753122442
 MeshRenderer:
   m_ObjectHideFlags: 0

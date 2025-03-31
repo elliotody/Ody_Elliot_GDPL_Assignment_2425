@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class BlueCollectable : Collectable
 {
+    private void Start()
+    {
+        GameManager.instance.objectivesLeft++;
+    }
+
     public override void collect()
     {
         GameManager.instance.objectiveShot();
