@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: 490766451227956552}
   - component: {fileID: 6913488980753122442}
   - component: {fileID: 3639124623606686429}
+  - component: {fileID: 3589111397064391092}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -133,7 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 12
   minSpeed: 6
-  maxXAngle: 45
+  maxXAngle: 70
   yAngleChange: 50
   xAngleChange: 50
 --- !u!114 &490766451227956552
@@ -149,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indicatorPrefab: {fileID: 5731585603014487063, guid: ed4fb6eec35cad54f836df23c653e42e, type: 3}
-  numOfIndicators: 20
+  numOfIndicators: 10
   timeStep: 0.03
 --- !u!23 &6913488980753122442
 MeshRenderer:
@@ -201,6 +202,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6095583663070722400}
   m_Mesh: {fileID: -384132392127922079, guid: 7814ca70d3b25f849b6c8e6a515c3e72, type: 3}
+--- !u!114 &3589111397064391092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6095583663070722400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 1
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1001 &4071485218707727091
 PrefabInstance:
   m_ObjectHideFlags: 0

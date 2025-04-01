@@ -63,6 +63,7 @@ public class Player : MonoBehaviour
         if (tl != null) { tl.hideIndicators(); } // Hide trajectory indicators when the ball is shot
         if (rb.isKinematic)
         {
+            GameManager.instance.useShots(); // Uses up a shot
             rb.isKinematic = false; // Enable physics
             rb.velocity = rb.transform.forward.normalized * currentSpeed; // Apply velocity
             yield return new WaitForSeconds(10); // Wait for 10 seconds
@@ -75,8 +76,7 @@ public class Player : MonoBehaviour
     {
         if (!rb.isKinematic)
         {
-            GameManager.instance.useShots(); // Uses up a shot
-            currentXAngle = currentYAngle = 0f;
+            currentXAngle = currentYAngle = 0f; // Resets the current aim angle
             rb.velocity = new Vector3(0f, 0f, 0f); // Reset velocity
             transform.position = originalPos; // Reset position
             rb.rotation = Quaternion.Euler(0f, 0f, 0f); // Reset rotation
