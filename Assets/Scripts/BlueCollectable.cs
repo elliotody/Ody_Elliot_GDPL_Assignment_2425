@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BlueCollectable : Collectable
 {
-    private void Start()
+    private void Awake()
     {
         GameManager.instance.objectivesLeft++;
     }

@@ -10,8 +10,13 @@ public class Collectable : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            collect();
-            Destroy(gameObject);
+            collected();
         }
+    }
+
+    public void collected()
+    {
+        collect();
+        Destroy(gameObject);
     }
 }

@@ -9,10 +9,13 @@ public class DeathZone : MonoBehaviour
         if (other.tag == "Player")
         { 
             other.GetComponent<Player>().resetBall();
+            return;
         }
-        else
+        else if (other.tag == "Collectable")
         {
-            Destroy(other.gameObject);
+            other.GetComponent<Collectable>().collected();
         }
+
+        Destroy(other.transform.parent.gameObject);
     }
 }
