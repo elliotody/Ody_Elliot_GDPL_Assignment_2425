@@ -76,6 +76,7 @@ public class Player : MonoBehaviour
     {
         if (!rb.isKinematic)
         {
+            tl.hideIndicators(); // Hides the indicators
             currentXAngle = currentYAngle = 0f; // Resets the current aim angle
             rb.velocity = new Vector3(0f, 0f, 0f); // Reset velocity
             transform.position = originalPos; // Reset position
@@ -83,7 +84,6 @@ public class Player : MonoBehaviour
             rb.isKinematic = true; // Disable physics
             StopAllCoroutines(); // Stops the shootBall() coroutine from resetting
             updateTrajectoryLine(); // Update trajectory visualization
-            tl.hideIndicators(); // Hides the indicators
         }
     }
 
@@ -129,9 +129,10 @@ public class Player : MonoBehaviour
         if (tl != null && rb.isKinematic)
         {
             Vector3 u = rb.transform.forward.normalized * currentSpeed;
-            //tl.rb.rotation = Quaternion.Euler(0f, currentXAngle, 0f);
             tl.createPrediction(u.z, u.y, u.x, 0f, Physics.gravity.y, 0f);
             updateHUD();
+
+            tl.showIndicators(); // shows the indicators
         }
     }
 

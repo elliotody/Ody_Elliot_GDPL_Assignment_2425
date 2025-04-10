@@ -31,11 +31,17 @@ public class GameManager : MonoBehaviour
         HUD.instance.setShotsLeft(shotsLeft);
     }
 
-    public void addShots(int value) 
+    public void addShots(int value = 3) 
     { 
         shotsLeft += value;
         HUD.instance.setShotsLeft(shotsLeft);
         player.resetBall();
+    }
+
+    public void addObjectives(int value = 1)
+    {
+        objectivesLeft += value;
+        HUD.instance.setTargetsLeft(objectivesLeft);
     }
 
     public void objectiveShot()

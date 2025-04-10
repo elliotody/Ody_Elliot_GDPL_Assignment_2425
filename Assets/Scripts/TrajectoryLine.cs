@@ -46,8 +46,6 @@ public class TrajectoryLine : MonoBehaviour
             // Update indicator position relative to the ball
             indicators[i].transform.localPosition = new Vector3(pos.z, pos.y, pos.x) + transform.localPosition;
         }
-
-        showIndicators(); // Make indicators visible
     }
 
     // Hides all trajectory indicators

@@ -6,7 +6,7 @@ public class BlueCollectable : Collectable
 {
     private void Awake()
     {
-        GameManager.instance.objectivesLeft++;
+        GameManager.instance.addObjectives();
     }
 
     public override void collect()

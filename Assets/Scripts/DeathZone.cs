@@ -16,6 +16,6 @@ public class DeathZone : MonoBehaviour
             other.GetComponent<Collectable>().collected();
         }
 
-        Destroy(other.transform.parent.gameObject);
+        //Destroy(other.transform.gameObject);
     }
 }
