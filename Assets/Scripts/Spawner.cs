@@ -12,37 +12,65 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float height;
 
     [System.Serializable]
-    public class SpawnCollectable
+    public class SpawnableObject
+    {
+        public GameObject spawnObject;
+        public int minSpawns = 0;
+        [Tooltip("If set to 0 this object has no maximum spawns.")]
+        public int maxSpawns = 0;
+    }
+    [System.Serializable]
+    public class SpawnableCollectable
     {
         public GameObject collectable;
         public int numToSpawn = 1;
     }
 
-
     [Header("Items to Spawn (spawns them in the order displayed)")]
     [SerializeField] private int numDecor = 1;
     [SerializeField] private int numObstacles = 1;
-    [SerializeField] private List<GameObject> decor;
-    [SerializeField] private List<SpawnCollectable> collectables;
-    [SerializeField] private List<GameObject> obstacles;
+    [SerializeField] private List<SpawnableObject> decor;
+    [SerializeField] private List<SpawnableCollectable> collectables;
+    [SerializeField] private List<SpawnableObject> obstacles;
 
     private void Start()
     {
-        spawnObjects(decor);
-        spawnObjects(collectables);
+        spawnRandomObjects(decor, numDecor);
+        spawnCollectables(collectables);
+        spawnRandomObjects(obstacles, numObstacles);
     }
 
-    private void spawnObjects(List<GameObject> objects)
+    private void spawnRandomObjects(List<SpawnableObject> objects, int numToSpawn = 1)
     {
-        foreach (GameObject obj in objects)
+        foreach (SpawnableObject obj in objects)
         {
-            spawnObject(obj);
+            if (obj.minSpawns > 0)
+            {
+                for (int i = 0; i < obj.minSpawns; i++)
+                {
+                    spawnObject(obj.spawnObject);
+                    obj.maxSpawns -= 1;
+                    numToSpawn -= 1;
+
+                    if (numToSpawn <= 0) { return; }
+                }
+            }
+        }
+
+        for (int i = 0; i < numToSpawn; i++)
+        {
+            if (objects.Count == 0) { return; }
+
+            int current = Mathf.FloorToInt(Random.Range(0, objects.Count));
+
+            if (objects[current].maxSpawns > 0) { spawnObject(objects[current].spawnObject); }
+            else { objects.RemoveAt(current); numToSpawn++; }
         }
     }
 
-    private void spawnObjects(List<SpawnCollectable> objects)
+    private void spawnCollectables(List<SpawnableCollectable> objects)
     {
-        foreach (SpawnCollectable obj in objects)
+        foreach (SpawnableCollectable obj in objects)
         {
             for (int i = 0; i < obj.numToSpawn; i++)
             {

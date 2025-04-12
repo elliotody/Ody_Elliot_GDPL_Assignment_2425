@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2137195479350166958}
   - component: {fileID: 5443104104634564224}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: Spawnable Area
   m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

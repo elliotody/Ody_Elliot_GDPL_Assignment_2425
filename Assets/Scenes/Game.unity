@@ -739,10 +739,12 @@ MonoBehaviour:
   topLeft: {x: -6, y: 12}
   bottomRight: {x: 6, y: 2}
   height: 10
-  numDecor: 5
-  numObstacles: 1
+  numDecor: 10
+  numObstacles: 3
   decor:
-  - {fileID: 3328140953865557265, guid: 4059c976faa8bc748a990861263d68d3, type: 3}
+  - spawnObject: {fileID: 0}
+    minSpawns: 0
+    maxSpawns: 0
   collectables:
   - collectable: {fileID: 4828341762314447155, guid: e75522f2a8bad674f83c49d6cd4c3bb6, type: 3}
     numToSpawn: 10
