@@ -18,12 +18,16 @@ public class Spawner : MonoBehaviour
         public int minSpawns = 0;
         [Tooltip("If set to 0 this object has no maximum spawns.")]
         public int maxSpawns = 0;
+        public bool randomRotation = true;
+        [HideInInspector]
+        public bool infiniteSpawns = true;
     }
     [System.Serializable]
     public class SpawnableCollectable
     {
         public GameObject collectable;
         public int numToSpawn = 1;
+        public bool randomRotation = true;
     }
 
     [Header("Items to Spawn (spawns them in the order displayed)")]
@@ -44,6 +48,8 @@ public class Spawner : MonoBehaviour
     {
         foreach (SpawnableObject obj in objects)
         {
+            if (obj.maxSpawns > 0) { obj.infiniteSpawns = false; }
+
             if (obj.minSpawns > 0)
             {
                 for (int i = 0; i < obj.minSpawns; i++)
@@ -63,7 +69,7 @@ public class Spawner : MonoBehaviour
 
             int current = Mathf.FloorToInt(Random.Range(0, objects.Count));
 
-            if (objects[current].maxSpawns > 0) { spawnObject(objects[current].spawnObject); }
+            if (objects[current].maxSpawns > 0 || objects[current].infiniteSpawns) { spawnObject(objects[current].spawnObject, objects[current].randomRotation); objects[current].maxSpawns--; }
             else { objects.RemoveAt(current); numToSpawn++; }
         }
     }
@@ -74,12 +80,12 @@ public class Spawner : MonoBehaviour
         {
             for (int i = 0; i < obj.numToSpawn; i++)
             {
-                spawnObject(obj.collectable);
+                spawnObject(obj.collectable, obj.randomRotation);
             }
         }
     }
 
-    private void spawnObject(GameObject obj)
+    private void spawnObject(GameObject obj, bool randomRotation = false)
     {
         if (obj == null) { return; }
 
@@ -92,10 +98,11 @@ public class Spawner : MonoBehaviour
         {
             Instantiate(obj);
             obj.transform.position = hit.point;
+            if (randomRotation) { obj.transform.Rotate(Vector3.up, Random.Range(0, 360)); }
         }
         else
         {
-            spawnObject(obj);
+            spawnObject(obj, randomRotation);
         }
     }
 }

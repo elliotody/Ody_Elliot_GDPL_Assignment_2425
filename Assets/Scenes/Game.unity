@@ -739,17 +739,41 @@ MonoBehaviour:
   topLeft: {x: -6, y: 12}
   bottomRight: {x: 6, y: 2}
   height: 10
-  numDecor: 10
+  numDecor: 50
   numObstacles: 3
   decor:
-  - spawnObject: {fileID: 0}
+  - spawnObject: {fileID: 8167019710205538894, guid: 62312f55455f70c408bc829576387a23, type: 3}
+    minSpawns: 0
+    maxSpawns: 1
+    randomRotation: 1
+    infiniteSpawns: 1
+  - spawnObject: {fileID: 4345025793483430392, guid: b5137351868de7c43bec0623640fdb94, type: 3}
+    minSpawns: 0
+    maxSpawns: 1
+    randomRotation: 1
+    infiniteSpawns: 1
+  - spawnObject: {fileID: 9127766934247100381, guid: 4516cd9295f7ed143b2f559ff480f96a, type: 3}
     minSpawns: 0
     maxSpawns: 0
+    randomRotation: 1
+    infiniteSpawns: 1
+  - spawnObject: {fileID: 3328140953865557265, guid: 4059c976faa8bc748a990861263d68d3, type: 3}
+    minSpawns: 0
+    maxSpawns: 3
+    randomRotation: 1
+    infiniteSpawns: 1
+  - spawnObject: {fileID: 3963109086987615102, guid: 971b910d66eb30344bdde87834383d03, type: 3}
+    minSpawns: 0
+    maxSpawns: 0
+    randomRotation: 1
+    infiniteSpawns: 1
   collectables:
   - collectable: {fileID: 4828341762314447155, guid: e75522f2a8bad674f83c49d6cd4c3bb6, type: 3}
     numToSpawn: 10
+    randomRotation: 0
   - collectable: {fileID: 4828341762314447155, guid: 5eabe8daef2486b409c17464ed0c2f9f, type: 3}
     numToSpawn: 3
+    randomRotation: 0
   obstacles: []
 --- !u!1001 &1745565021928331027
 PrefabInstance:
