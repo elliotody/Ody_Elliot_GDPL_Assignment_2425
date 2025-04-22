@@ -27,10 +27,6 @@ public class Spawner : MonoBehaviour
     public class SpawnableCollectable : SpawnableObject
     {
         public int numToSpawn = 1;
-        [HideInInspector]
-        public int minSpawns = 0;
-        [HideInInspector]
-        public int maxSpawns = 0;
     }
 
     [Header("Items to Spawn (spawns them in the order displayed)")]
@@ -57,7 +53,7 @@ public class Spawner : MonoBehaviour
             {
                 for (int i = 0; i < obj.minSpawns; i++)
                 {
-                    spawnObject(obj.spawnObject);
+                    spawnObject(obj.spawnObject, obj.randomRotation, obj.checkRadius);
                     obj.maxSpawns -= 1;
                     numToSpawn -= 1;
 
@@ -72,7 +68,7 @@ public class Spawner : MonoBehaviour
 
             int current = Mathf.FloorToInt(Random.Range(0, objects.Count));
 
-            if (objects[current].maxSpawns > 0 || objects[current].infiniteSpawns) { spawnObject(objects[current].spawnObject, objects[current].randomRotation); objects[current].maxSpawns--; }
+            if (objects[current].maxSpawns > 0 || objects[current].infiniteSpawns) { spawnObject(objects[current].spawnObject, objects[current].randomRotation, objects[current].checkRadius); objects[current].maxSpawns--; }
             else { objects.RemoveAt(current); numToSpawn++; }
         }
     }
@@ -99,29 +95,30 @@ public class Spawner : MonoBehaviour
 
         if (Physics.Raycast(new Vector3(x, height, z), Vector3.down, out hit, rayLength) && hit.collider.tag == "SpawnArea")
         {
-            Collider[] detectedObjects = Physics.OverlapSphere(hit.point, 0.4f);
+            print(checkRadius);
+            Collider[] detectedObjects = Physics.OverlapSphere(hit.point + (Vector3.up * 0.5f), checkRadius);
             foreach (Collider c in detectedObjects)
             {
                 if (c.tag != "SpawnArea" && c.tag != "Platform")
                 {
-                    spawnObject(obj, randomRotation);
+                    spawnObject(obj, randomRotation, checkRadius);
                     return;
                 }
             }
 
-            Instantiate(obj);
-            obj.transform.position = hit.point;
+            GameObject newObj = Instantiate(obj);
+            newObj.transform.position = hit.point;
 
-            if (randomRotation) { obj.transform.Rotate(Vector3.up, Random.Range(0, 360)); }
+            if (randomRotation) { newObj.transform.Rotate(Vector3.up, Random.Range(0, 360)); }
             else 
             {
-                Vector3 lookPos = new Vector3(GameManager.instance.player.getOriginalPos().x, obj.transform.position.y, GameManager.instance.player.getOriginalPos().z);
-                obj.transform.LookAt(lookPos); 
+                Vector3 lookPos = new Vector3(GameManager.instance.player.getOriginalPos().x, newObj.transform.position.y, GameManager.instance.player.getOriginalPos().z);
+                newObj.transform.LookAt(lookPos); 
             }
         }
         else
         {
-            spawnObject(obj, randomRotation);
+            spawnObject(obj, randomRotation, checkRadius);
         }
     }
 }
