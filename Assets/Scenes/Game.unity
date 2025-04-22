@@ -740,49 +740,68 @@ MonoBehaviour:
   bottomRight: {x: 6, y: 2}
   height: 10
   numDecor: 50
-  numObstacles: 30
+  numObstacles: 10
   decor:
   - spawnObject: {fileID: 8167019710205538894, guid: 62312f55455f70c408bc829576387a23, type: 3}
     minSpawns: 0
     maxSpawns: 1
+    checkRadius: 0
     randomRotation: 1
     infiniteSpawns: 1
   - spawnObject: {fileID: 4345025793483430392, guid: b5137351868de7c43bec0623640fdb94, type: 3}
     minSpawns: 0
     maxSpawns: 1
+    checkRadius: 0
     randomRotation: 1
     infiniteSpawns: 1
   - spawnObject: {fileID: 9127766934247100381, guid: 4516cd9295f7ed143b2f559ff480f96a, type: 3}
     minSpawns: 0
     maxSpawns: 0
+    checkRadius: 0
     randomRotation: 1
     infiniteSpawns: 1
   - spawnObject: {fileID: 3328140953865557265, guid: 4059c976faa8bc748a990861263d68d3, type: 3}
     minSpawns: 0
     maxSpawns: 3
+    checkRadius: 0
     randomRotation: 1
     infiniteSpawns: 1
   - spawnObject: {fileID: 3963109086987615102, guid: 971b910d66eb30344bdde87834383d03, type: 3}
     minSpawns: 0
     maxSpawns: 0
+    checkRadius: 0
     randomRotation: 1
     infiniteSpawns: 1
   collectables:
-  - collectable: {fileID: 4828341762314447155, guid: e75522f2a8bad674f83c49d6cd4c3bb6, type: 3}
-    numToSpawn: 10
-    randomRotation: 0
-  - collectable: {fileID: 4828341762314447155, guid: 5eabe8daef2486b409c17464ed0c2f9f, type: 3}
-    numToSpawn: 3
+  - spawnObject: {fileID: 4828341762314447155, guid: e75522f2a8bad674f83c49d6cd4c3bb6, type: 3}
+    minSpawns: 0
+    maxSpawns: 0
+    checkRadius: 0.3
     randomRotation: 1
+    infiniteSpawns: 1
+    numToSpawn: 10
+    minSpawns: 0
+    maxSpawns: 0
+  - spawnObject: {fileID: 4828341762314447155, guid: 5eabe8daef2486b409c17464ed0c2f9f, type: 3}
+    minSpawns: 0
+    maxSpawns: 0
+    checkRadius: 0.3
+    randomRotation: 1
+    infiniteSpawns: 1
+    numToSpawn: 3
+    minSpawns: 0
+    maxSpawns: 0
   obstacles:
   - spawnObject: {fileID: 5362900941915561974, guid: 4ec199d6b290896449d0cb5a891b5931, type: 3}
     minSpawns: 1
     maxSpawns: 1
+    checkRadius: 0
     randomRotation: 0
     infiniteSpawns: 1
   - spawnObject: {fileID: 8034517575475518932, guid: 3a30ab2950ad8f541a66309355c6064c, type: 3}
     minSpawns: 0
     maxSpawns: 0
+    checkRadius: 0
     randomRotation: 1
     infiniteSpawns: 1
 --- !u!1001 &1745565021928331027
