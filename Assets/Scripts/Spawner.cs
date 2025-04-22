@@ -53,7 +53,7 @@ public class Spawner : MonoBehaviour
             {
                 for (int i = 0; i < obj.minSpawns; i++)
                 {
-                    spawnObject(obj.spawnObject, obj.randomRotation, obj.checkRadius);
+                    spawnObject(obj.spawnObject, obj.checkRadius, obj.randomRotation);
                     obj.maxSpawns -= 1;
                     numToSpawn -= 1;
 
@@ -68,7 +68,7 @@ public class Spawner : MonoBehaviour
 
             int current = Mathf.FloorToInt(Random.Range(0, objects.Count));
 
-            if (objects[current].maxSpawns > 0 || objects[current].infiniteSpawns) { spawnObject(objects[current].spawnObject, objects[current].randomRotation, objects[current].checkRadius); objects[current].maxSpawns--; }
+            if (objects[current].maxSpawns > 0 || objects[current].infiniteSpawns) { spawnObject(objects[current].spawnObject, objects[current].checkRadius, objects[current].randomRotation); objects[current].maxSpawns--; }
             else { objects.RemoveAt(current); numToSpawn++; }
         }
     }
@@ -79,12 +79,12 @@ public class Spawner : MonoBehaviour
         {
             for (int i = 0; i < obj.numToSpawn; i++)
             {
-                spawnObject(obj.spawnObject, obj.randomRotation, obj.checkRadius);
+                spawnObject(obj.spawnObject, obj.checkRadius, obj.randomRotation);
             }
         }
     }
 
-    private void spawnObject(GameObject obj, bool randomRotation = false, float checkRadius = 0f)
+    private void spawnObject(GameObject obj, float checkRadius, bool randomRotation = false)
     {
         if (obj == null) { return; }
 
@@ -95,13 +95,12 @@ public class Spawner : MonoBehaviour
 
         if (Physics.Raycast(new Vector3(x, height, z), Vector3.down, out hit, rayLength) && hit.collider.tag == "SpawnArea")
         {
-            print(checkRadius);
-            Collider[] detectedObjects = Physics.OverlapSphere(hit.point + (Vector3.up * 0.5f), checkRadius);
+            Collider[] detectedObjects = Physics.OverlapSphere(hit.point, checkRadius);
             foreach (Collider c in detectedObjects)
             {
-                if (c.tag != "SpawnArea" && c.tag != "Platform")
+                if (c.tag != "SpawnArea" && c.tag != "Platform" && c.isTrigger)
                 {
-                    spawnObject(obj, randomRotation, checkRadius);
+                    spawnObject(obj, checkRadius, randomRotation);
                     return;
                 }
             }
@@ -118,7 +117,7 @@ public class Spawner : MonoBehaviour
         }
         else
         {
-            spawnObject(obj, randomRotation, checkRadius);
+            spawnObject(obj, checkRadius, randomRotation);
         }
     }
 }
