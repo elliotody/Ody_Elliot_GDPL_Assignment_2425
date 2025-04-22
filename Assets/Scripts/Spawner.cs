@@ -48,7 +48,7 @@ public class Spawner : MonoBehaviour
     {
         foreach (SpawnableObject obj in objects)
         {
-            if (obj.maxSpawns > 0) { obj.infiniteSpawns = false; }
+            if (obj.maxSpawns > 0) { obj.infiniteSpawns = false; } else { obj.infiniteSpawns = true; }
 
             if (obj.minSpawns > 0)
             {
@@ -99,6 +99,11 @@ public class Spawner : MonoBehaviour
             Instantiate(obj);
             obj.transform.position = hit.point;
             if (randomRotation) { obj.transform.Rotate(Vector3.up, Random.Range(0, 360)); }
+            else 
+            {
+                Vector3 lookPos = new Vector3(GameManager.instance.player.getOriginalPos().x, obj.transform.position.y, GameManager.instance.player.getOriginalPos().z);
+                obj.transform.LookAt(lookPos); 
+            }
         }
         else
         {

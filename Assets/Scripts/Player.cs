@@ -57,6 +57,12 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R)) { resetBall(); }
     }
 
+    // Returns the player's starting position
+    public Vector3 getOriginalPos()
+    {
+        return originalPos;
+    }
+
     // Shoots the ball in the direction it's facing (as a coroutine so the timer works)
     IEnumerator shootBall()
     {

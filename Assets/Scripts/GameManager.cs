@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [SerializeField] Player player;
+    public Player player;
 
     [HideInInspector]
     public int shotsLeft = 10;

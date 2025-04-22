@@ -740,7 +740,7 @@ MonoBehaviour:
   bottomRight: {x: 6, y: 2}
   height: 10
   numDecor: 50
-  numObstacles: 3
+  numObstacles: 30
   decor:
   - spawnObject: {fileID: 8167019710205538894, guid: 62312f55455f70c408bc829576387a23, type: 3}
     minSpawns: 0
@@ -773,8 +773,18 @@ MonoBehaviour:
     randomRotation: 0
   - collectable: {fileID: 4828341762314447155, guid: 5eabe8daef2486b409c17464ed0c2f9f, type: 3}
     numToSpawn: 3
+    randomRotation: 1
+  obstacles:
+  - spawnObject: {fileID: 5362900941915561974, guid: 4ec199d6b290896449d0cb5a891b5931, type: 3}
+    minSpawns: 1
+    maxSpawns: 1
     randomRotation: 0
-  obstacles: []
+    infiniteSpawns: 1
+  - spawnObject: {fileID: 8034517575475518932, guid: 3a30ab2950ad8f541a66309355c6064c, type: 3}
+    minSpawns: 0
+    maxSpawns: 0
+    randomRotation: 1
+    infiniteSpawns: 1
 --- !u!1001 &1745565021928331027
 PrefabInstance:
   m_ObjectHideFlags: 0
