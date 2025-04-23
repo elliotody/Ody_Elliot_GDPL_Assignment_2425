@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
@@ -38,6 +39,7 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
+        //Random.InitState(69420);
         spawnRandomObjects(decor, numDecor);
         spawnCollectables(collectables);
         spawnRandomObjects(obstacles, numObstacles);
@@ -84,8 +86,13 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    private void spawnObject(GameObject obj, float checkRadius, bool randomRotation = false)
+    private async void spawnObject(GameObject obj, float checkRadius = 0f, bool randomRotation = false)
     {
+        if (checkRadius != 0)
+        {
+            await Task.Delay(1);
+        }
+
         if (obj == null) { return; }
 
         float x = Random.Range(topLeft.x, bottomRight.x);
@@ -95,16 +102,22 @@ public class Spawner : MonoBehaviour
 
         if (Physics.Raycast(new Vector3(x, height, z), Vector3.down, out hit, rayLength) && hit.collider.tag == "SpawnArea")
         {
-            Collider[] detectedObjects = Physics.OverlapSphere(hit.point, checkRadius);
-            foreach (Collider c in detectedObjects)
+            if (checkRadius != 0)
             {
-                if (c.tag != "SpawnArea" && c.tag != "Platform" && c.isTrigger)
+                Collider[] detectedObjects = Physics.OverlapSphere(hit.point + (Vector3.up * checkRadius / 4), checkRadius);
+                int numObjects = detectedObjects.Length;
+                foreach (Collider c in detectedObjects)
                 {
-                    spawnObject(obj, checkRadius, randomRotation);
-                    return;
+                    if (c.tag == "SpawnArea" || c.tag == "Platform")
+                    {
+                        numObjects--;
+                    }
                 }
-            }
 
+                print(numObjects);
+                if (numObjects > 0) { spawnObject(obj, checkRadius, randomRotation); return; }
+
+            }
             GameObject newObj = Instantiate(obj);
             newObj.transform.position = hit.point;
 
