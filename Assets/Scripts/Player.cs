@@ -21,6 +21,25 @@ public class Player : MonoBehaviour
     [SerializeField] private float xAngleChange = 10f;
     private float currentXAngle = 0f;
 
+    [SerializeField] private GameObject smokeEffect;
+
+    [Header("Inputs")]
+    [SerializeField] private KeyCode inPowerUp;
+    [SerializeField] private KeyCode inPowerDown;
+    [SerializeField] private KeyCode inAngleUp;
+    [SerializeField] private KeyCode inAngleDown;
+    [SerializeField] private KeyCode inAngleLeft;
+    [SerializeField] private KeyCode inAngleRight;
+    [SerializeField] private KeyCode inShoot;
+    [SerializeField] private KeyCode inReset;
+
+    [Header("Visual Club")]
+    [SerializeField] private GameObject club;
+    [SerializeField] private float windupAngle;
+    [SerializeField] private float overshootAngle;
+    [SerializeField] private float swingSpeed;
+    [SerializeField] private float recoverySpeed;
+
     private Vector3 originalPos; // The original position of the ball
 
     private Rigidbody rb; // Rigidbody component reference
@@ -28,6 +47,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        updateTrajectoryLine();
         originalPos = transform.position; // Set the balls initial position for reset
         tl = GetComponent<TrajectoryLine>(); // Get TrajectoryLine component
         rb = GetComponent<Rigidbody>(); // Get Rigidbody component
@@ -40,21 +60,21 @@ public class Player : MonoBehaviour
     void Update()
     {
         // Adjust speed with J/K keys
-        if (Input.GetKeyDown(KeyCode.J)) { currentPower += 1; updateCurrentSpeed(speedChangeAmount); }
-        if (Input.GetKeyDown(KeyCode.K)) { currentPower -= 1; updateCurrentSpeed(-speedChangeAmount); }
+        if (Input.GetKeyDown(inPowerUp)) { currentPower += 1; updateCurrentSpeed(speedChangeAmount); }
+        if (Input.GetKeyDown(inPowerDown)) { currentPower -= 1; updateCurrentSpeed(-speedChangeAmount); }
 
         // Adjust vertical aim angle with W/S keys
-        if (Input.GetKey(KeyCode.W)) { updateYAngle(yAngleChange); }
-        if (Input.GetKey(KeyCode.S)) { updateYAngle(-yAngleChange); }
+        if (Input.GetKey(inAngleUp)) { updateYAngle(yAngleChange); }
+        if (Input.GetKey(inAngleDown)) { updateYAngle(-yAngleChange); }
 
         // Adjust horizontal aim angle with A/D keys
-        if (Input.GetKey(KeyCode.D)) { updateXAngle(xAngleChange); }
-        if (Input.GetKey(KeyCode.A)) { updateXAngle(-xAngleChange); }
+        if (Input.GetKey(inAngleLeft)) { updateXAngle(-xAngleChange); }
+        if (Input.GetKey(inAngleRight)) { updateXAngle(xAngleChange); }
 
         // Shoot the ball with Space key (starts a coroutine)
-        if (Input.GetKeyDown(KeyCode.Space)) { StartCoroutine(shootBall()); }
+        if (Input.GetKeyDown(inShoot)) { swingClub(); }
         // Reset the ball with R key (used for debugging)
-        if (Input.GetKeyDown(KeyCode.R)) { resetBall(); }
+        if (Input.GetKeyDown(inReset)) { resetBall(); }
     }
 
     // Returns the player's starting position
@@ -77,11 +97,17 @@ public class Player : MonoBehaviour
         }
     }
 
+    void swingClub()
+    {
+        StartCoroutine(shootBall());
+    }
+
     // Resets the ball to its initial state
     public void resetBall()
     {
         if (!rb.isKinematic)
         {
+            club.transform.rotation = new Quaternion(club.transform.rotation.x, club.transform.rotation.y, 0f, club.transform.rotation.w);
             tl.hideIndicators(); // Hides the indicators
             currentXAngle = currentYAngle = 0f; // Resets the current aim angle
             rb.velocity = new Vector3(0f, 0f, 0f); // Reset velocity
@@ -89,7 +115,7 @@ public class Player : MonoBehaviour
             rb.rotation = Quaternion.Euler(0f, 0f, 0f); // Reset rotation
             rb.isKinematic = true; // Disable physics
             StopAllCoroutines(); // Stops the shootBall() coroutine from resetting
-            updateTrajectoryLine(); // Update trajectory visualization
+            smokeEffect.GetComponent<ParticleSystem>().Play();
         }
     }
 

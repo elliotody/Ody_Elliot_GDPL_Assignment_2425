@@ -6,6 +6,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private float rayLength = 10f;
+    [SerializeField] private GameObject spawnEffect;
 
     [Header("Bounds")]
     [SerializeField] private Vector2 topLeft;
@@ -90,7 +91,7 @@ public class Spawner : MonoBehaviour
     {
         if (checkRadius != 0)
         {
-            await Task.Delay(1);
+            await Task.Delay(3);
         }
 
         if (obj == null) { return; }
@@ -120,6 +121,8 @@ public class Spawner : MonoBehaviour
             }
             GameObject newObj = Instantiate(obj);
             newObj.transform.position = hit.point;
+            GameObject effect = Instantiate(spawnEffect);
+            effect.transform.position = hit.point + (Vector3.up * 0.5f);
 
             if (randomRotation) { newObj.transform.Rotate(Vector3.up, Random.Range(0, 360)); }
             else 

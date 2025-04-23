@@ -736,6 +736,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rayLength: 50
+  spawnEffect: {fileID: 7705653296763011636, guid: 1a4aa33cb9baea74b99732e5c52007e6, type: 3}
   topLeft: {x: -12, y: 12}
   bottomRight: {x: 12, y: -12}
   height: 10
@@ -776,14 +777,14 @@ MonoBehaviour:
   - spawnObject: {fileID: 4828341762314447155, guid: e75522f2a8bad674f83c49d6cd4c3bb6, type: 3}
     minSpawns: 0
     maxSpawns: 0
-    checkRadius: 0.37
+    checkRadius: 0.4
     randomRotation: 1
     infiniteSpawns: 1
     numToSpawn: 10
   - spawnObject: {fileID: 4828341762314447155, guid: 5eabe8daef2486b409c17464ed0c2f9f, type: 3}
     minSpawns: 0
     maxSpawns: 0
-    checkRadius: 0.37
+    checkRadius: 0.4
     randomRotation: 1
     infiniteSpawns: 1
     numToSpawn: 3
@@ -791,13 +792,13 @@ MonoBehaviour:
   - spawnObject: {fileID: 5362900941915561974, guid: 4ec199d6b290896449d0cb5a891b5931, type: 3}
     minSpawns: 1
     maxSpawns: 1
-    checkRadius: 0.62
+    checkRadius: 0.7
     randomRotation: 0
     infiniteSpawns: 1
   - spawnObject: {fileID: 8034517575475518932, guid: 3a30ab2950ad8f541a66309355c6064c, type: 3}
     minSpawns: 0
     maxSpawns: 0
-    checkRadius: 0.72
+    checkRadius: 0.75
     randomRotation: 1
     infiniteSpawns: 1
 --- !u!1001 &1745565021928331027
@@ -1021,6 +1022,14 @@ PrefabInstance:
     - target: {fileID: 735041197680883764, guid: ded5e1c1c82c6c2479ff0ea701dc4dac, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4050575861236990055, guid: ded5e1c1c82c6c2479ff0ea701dc4dac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8372833123753257727, guid: ded5e1c1c82c6c2479ff0ea701dc4dac, type: 3}
+      propertyPath: windupAngle
+      value: 170
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
