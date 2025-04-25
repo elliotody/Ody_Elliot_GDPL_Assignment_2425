@@ -91,7 +91,7 @@ public class Spawner : MonoBehaviour
     {
         if (checkRadius != 0)
         {
-            await Task.Delay(3);
+            await Task.Delay(1);
         }
 
         if (obj == null) { return; }
