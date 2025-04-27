@@ -33,13 +33,6 @@ public class Player : MonoBehaviour
     [SerializeField] private KeyCode inShoot;
     [SerializeField] private KeyCode inReset;
 
-    [Header("Visual Club")]
-    [SerializeField] private GameObject club;
-    [SerializeField] private float windupAngle;
-    [SerializeField] private float overshootAngle;
-    [SerializeField] private float swingSpeed;
-    [SerializeField] private float recoverySpeed;
-
     private Vector3 originalPos; // The original position of the ball
 
     private Rigidbody rb; // Rigidbody component reference
@@ -72,7 +65,7 @@ public class Player : MonoBehaviour
         if (Input.GetKey(inAngleRight)) { updateXAngle(xAngleChange); }
 
         // Shoot the ball with Space key (starts a coroutine)
-        if (Input.GetKeyDown(inShoot)) { swingClub(); }
+        if (Input.GetKeyDown(inShoot)) { StartCoroutine(shootBall()); }
         // Reset the ball with R key (used for debugging)
         if (Input.GetKeyDown(inReset)) { resetBall(); }
     }
@@ -97,17 +90,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    void swingClub()
-    {
-        StartCoroutine(shootBall());
-    }
-
     // Resets the ball to its initial state
     public void resetBall()
     {
         if (!rb.isKinematic)
         {
-            club.transform.rotation = new Quaternion(club.transform.rotation.x, club.transform.rotation.y, 0f, club.transform.rotation.w);
             tl.hideIndicators(); // Hides the indicators
             currentXAngle = currentYAngle = 0f; // Resets the current aim angle
             rb.velocity = new Vector3(0f, 0f, 0f); // Reset velocity
