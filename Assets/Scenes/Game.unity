@@ -1957,8 +1957,12 @@ PrefabInstance:
       value: Launch Pad
       objectReference: {fileID: 0}
     - target: {fileID: 490766451227956552, guid: ded5e1c1c82c6c2479ff0ea701dc4dac, type: 3}
+      propertyPath: timeStep
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 490766451227956552, guid: ded5e1c1c82c6c2479ff0ea701dc4dac, type: 3}
       propertyPath: numOfIndicators
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 735041197680883764, guid: ded5e1c1c82c6c2479ff0ea701dc4dac, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2003,6 +2007,14 @@ PrefabInstance:
     - target: {fileID: 4050575861236990055, guid: ded5e1c1c82c6c2479ff0ea701dc4dac, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8372833123753257727, guid: ded5e1c1c82c6c2479ff0ea701dc4dac, type: 3}
+      propertyPath: maxSpeed
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8372833123753257727, guid: ded5e1c1c82c6c2479ff0ea701dc4dac, type: 3}
+      propertyPath: minSpeed
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8372833123753257727, guid: ded5e1c1c82c6c2479ff0ea701dc4dac, type: 3}
       propertyPath: windupAngle

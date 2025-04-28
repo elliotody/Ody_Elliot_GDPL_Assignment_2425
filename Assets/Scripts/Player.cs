@@ -44,7 +44,7 @@ public class Player : MonoBehaviour
         originalPos = transform.position; // Set the balls initial position for reset
         tl = GetComponent<TrajectoryLine>(); // Get TrajectoryLine component
         rb = GetComponent<Rigidbody>(); // Get Rigidbody component
-        speedChangeAmount = (maxSpeed - minSpeed) / 10; // Determine step size for speed changes
+        speedChangeAmount = (maxSpeed - minSpeed) / 9; // Determine step size for speed changes
         currentSpeed = maxSpeed; // Start with maximum speed
 
         updateHUD(); // Updates the HUD
@@ -135,7 +135,7 @@ public class Player : MonoBehaviour
     {
         currentSpeed += value;
         // Ensure speed stays within min and max limits
-        if (currentSpeed < minSpeed) { currentSpeed = minSpeed; currentPower = 0; }
+        if (currentSpeed < minSpeed) { currentSpeed = minSpeed; currentPower = 1; }
         else if (currentSpeed > maxSpeed) { currentSpeed = maxSpeed; currentPower = 10; }
 
         updateTrajectoryLine(); // Refresh trajectory visualization
