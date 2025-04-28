@@ -98,7 +98,7 @@ public class Spawner : MonoBehaviour
 
         float x = Random.Range(topLeft.x, bottomRight.x);
         float z = Random.Range(topLeft.y, bottomRight.y);
-
+        
         RaycastHit hit;
 
         if (Physics.Raycast(new Vector3(x, height, z), Vector3.down, out hit, rayLength) && hit.collider.tag == "SpawnArea")
