@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class HUD : MonoBehaviour
@@ -14,6 +15,7 @@ public class HUD : MonoBehaviour
     [SerializeField] private TextMeshProUGUI elevation;
     [SerializeField] private TextMeshProUGUI horizontal;
     [SerializeField] private TextMeshProUGUI power;
+    [SerializeField] private Slider powerSlider;
 
     private void Awake()
     {
@@ -43,6 +45,7 @@ public class HUD : MonoBehaviour
     public void setPower(int value)
     {
         power.SetText("Power: " + value);
+        powerSlider.value = value;
     }
 
     public void infoButtonClicked()

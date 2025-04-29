@@ -95,8 +95,8 @@ public class Player : MonoBehaviour
     {
         if (!rb.isKinematic)
         {
-            tl.hideIndicators(); // Hides the indicators
-            currentXAngle = currentYAngle = 0f; // Resets the current aim angle
+            tl.showIndicators(); // Hides the indicators
+            //currentXAngle = currentYAngle = 0f; // Resets the current aim angle
             rb.velocity = new Vector3(0f, 0f, 0f); // Reset velocity
             transform.position = originalPos; // Reset position
             rb.rotation = Quaternion.Euler(0f, 0f, 0f); // Reset rotation
@@ -139,6 +139,7 @@ public class Player : MonoBehaviour
         else if (currentSpeed > maxSpeed) { currentSpeed = maxSpeed; currentPower = 10; }
 
         updateTrajectoryLine(); // Refresh trajectory visualization
+        updateHUD();
     }
 
     // Updates the trajectory visualization
