@@ -38,6 +38,8 @@ public class Player : MonoBehaviour
     private Rigidbody rb; // Rigidbody component reference
     private TrajectoryLine tl; // Reference to the trajectory line
 
+    private Quaternion savedRot = Quaternion.identity;
+
     void Start()
     {
         updateTrajectoryLine();
@@ -79,9 +81,9 @@ public class Player : MonoBehaviour
     // Shoots the ball in the direction it's facing (as a coroutine so the timer works)
     IEnumerator shootBall()
     {
-        if (tl != null) { tl.hideIndicators(); } // Hide trajectory indicators when the ball is shot
         if (rb.isKinematic)
         {
+            savedRot = rb.rotation;
             GameManager.instance.useShots(); // Uses up a shot
             rb.isKinematic = false; // Enable physics
             rb.velocity = rb.transform.forward.normalized * currentSpeed; // Apply velocity
@@ -99,7 +101,7 @@ public class Player : MonoBehaviour
             //currentXAngle = currentYAngle = 0f; // Resets the current aim angle
             rb.velocity = new Vector3(0f, 0f, 0f); // Reset velocity
             transform.position = originalPos; // Reset position
-            rb.rotation = Quaternion.Euler(0f, 0f, 0f); // Reset rotation
+            rb.rotation = savedRot;
             rb.isKinematic = true; // Disable physics
             StopAllCoroutines(); // Stops the shootBall() coroutine from resetting
             smokeEffect.GetComponent<ParticleSystem>().Play();
