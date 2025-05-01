@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEditor;
 
 public class HUD : MonoBehaviour
 {
@@ -17,9 +19,29 @@ public class HUD : MonoBehaviour
     [SerializeField] private TextMeshProUGUI power;
     [SerializeField] private Slider powerSlider;
 
+    [SerializeField] private Canvas pauseMenu;
+    [SerializeField] private SceneAsset mainMenu;
+
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
+        pauseMenu.enabled = false;
+    }
+
+    public void togglePauseMenu()
+    {
+        pauseMenu.enabled = !pauseMenu.enabled;
+        Time.timeScale = pauseMenu.enabled ? 0.0f : 1.0f;
+    }
+
+    public void onMainMenuPressed()
+    {
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene(mainMenu.name);
     }
 
     public void setShotsLeft(int value)
