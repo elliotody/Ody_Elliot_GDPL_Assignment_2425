@@ -2594,7 +2594,7 @@ MonoBehaviour:
     minSpawns: 0
     maxSpawns: 0
     checkRadius: 0.4
-    randomRotation: 1
+    randomRotation: 0
     infiniteSpawns: 1
     numToSpawn: 10
   - spawnObject: {fileID: 4828341762314447155, guid: 5eabe8daef2486b409c17464ed0c2f9f, type: 3}

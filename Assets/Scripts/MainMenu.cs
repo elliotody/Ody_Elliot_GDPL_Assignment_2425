@@ -13,7 +13,6 @@ public class MainMenu : MonoBehaviour
     [Header("Funky Mode")]
     [SerializeField] private Sprite notFunky;
     [SerializeField] private Sprite funky;
-    private bool isFunky = false;
 
     public void playButtonPressed()
     {
@@ -22,14 +21,14 @@ public class MainMenu : MonoBehaviour
 
     public void funkyButtonPressed()
     {
-        if (isFunky)
+        if (PersistentData.funkyMode)
         {
-            isFunky = false;
+            PersistentData.funkyMode = false;
             logo.sprite = notFunky;
         }
         else
         {
-            isFunky = true;
+            PersistentData.funkyMode = true;
             logo.sprite = funky;
         }
     }
