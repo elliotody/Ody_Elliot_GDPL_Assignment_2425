@@ -20,7 +20,7 @@ public class HUD : MonoBehaviour
     [SerializeField] private Slider powerSlider;
 
     [SerializeField] private Canvas pauseMenu;
-    [SerializeField] private SceneAsset mainMenu;
+    [SerializeField] public SceneAsset mainMenu;
 
     private void Awake()
     {

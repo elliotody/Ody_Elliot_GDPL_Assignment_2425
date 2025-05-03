@@ -50,4 +50,9 @@ public class GameManager : MonoBehaviour
         player.resetBall();
         HUD.instance.setTargetsLeft(objectivesLeft);
     }
+
+    public void returnToMainMenu()
+    {
+
+    }
 }

@@ -115,7 +115,6 @@ public class Spawner : MonoBehaviour
                     }
                 }
 
-                print(numObjects);
                 if (numObjects > 0) { spawnObject(obj, checkRadius, randomRotation); return; }
 
             }

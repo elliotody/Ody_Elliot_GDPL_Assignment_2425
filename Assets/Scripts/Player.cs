@@ -93,7 +93,7 @@ public class Player : MonoBehaviour
     }
 
     // Resets the ball to its initial state
-    public void resetBall()
+    public async void resetBall()
     {
         if (!rb.isKinematic)
         {
@@ -105,6 +105,9 @@ public class Player : MonoBehaviour
             rb.isKinematic = true; // Disable physics
             StopAllCoroutines(); // Stops the shootBall() coroutine from resetting
             smokeEffect.GetComponent<ParticleSystem>().Play();
+
+            if (GameManager.instance.objectivesLeft <= 0) { WinLose.instance.win(); }
+            else if (GameManager.instance.shotsLeft <= 0) { WinLose.instance.lose(); }
         }
     }
 
