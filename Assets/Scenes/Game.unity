@@ -2810,7 +2810,7 @@ MonoBehaviour:
   bottomRight: {x: 12, y: -12}
   height: 10
   numDecor: 50
-  numObstacles: 5
+  numObstacles: 6
   decor:
   - spawnObject: {fileID: 8167019710205538894, guid: 62312f55455f70c408bc829576387a23, type: 3}
     minSpawns: 0
@@ -4137,7 +4137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 490766451227956552, guid: ded5e1c1c82c6c2479ff0ea701dc4dac, type: 3}
       propertyPath: numOfIndicators
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 735041197680883764, guid: ded5e1c1c82c6c2479ff0ea701dc4dac, type: 3}
       propertyPath: m_LocalPosition.x

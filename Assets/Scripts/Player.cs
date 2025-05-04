@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
     private TrajectoryLine tl; // Reference to the trajectory line
 
     private Quaternion savedRot = Quaternion.identity;
+    private bool gameEnded = false;
 
     void Start()
     {
@@ -50,10 +51,12 @@ public class Player : MonoBehaviour
         currentSpeed = maxSpeed; // Start with maximum speed
 
         updateHUD(); // Updates the HUD
+        gameEnded = false;
     }
 
     void Update()
     {
+        if (gameEnded) { return; }
         // Adjust speed with J/K keys
         if (Input.GetKeyDown(inPowerUp)) { currentPower += 1; updateCurrentSpeed(speedChangeAmount); }
         if (Input.GetKeyDown(inPowerDown)) { currentPower -= 1; updateCurrentSpeed(-speedChangeAmount); }
@@ -93,7 +96,7 @@ public class Player : MonoBehaviour
     }
 
     // Resets the ball to its initial state
-    public async void resetBall()
+    public void resetBall()
     {
         if (!rb.isKinematic)
         {
@@ -106,8 +109,8 @@ public class Player : MonoBehaviour
             StopAllCoroutines(); // Stops the shootBall() coroutine from resetting
             smokeEffect.GetComponent<ParticleSystem>().Play();
 
-            if (GameManager.instance.objectivesLeft <= 0) { WinLose.instance.win(); }
-            else if (GameManager.instance.shotsLeft <= 0) { WinLose.instance.lose(); }
+            if (GameManager.instance.objectivesLeft <= 0) { WinLose.instance.win(); gameEnded = true; }
+            else if (GameManager.instance.shotsLeft <= 0) { WinLose.instance.lose(); gameEnded = true; }
         }
     }
 
