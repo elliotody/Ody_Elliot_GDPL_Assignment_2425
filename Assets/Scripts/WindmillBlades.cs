@@ -8,6 +8,7 @@ public class Windmill_Blades : MonoBehaviour
 
     private void Update()
     {
+        // Animates the windmill
         transform.Rotate(-Vector3.forward, speed * Time.deltaTime);
     }
 }

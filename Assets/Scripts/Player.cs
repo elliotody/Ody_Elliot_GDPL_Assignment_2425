@@ -2,53 +2,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Handles the player mechanics, including movement, aiming, and shooting
 public class Player : MonoBehaviour
 {
-    // Speed properties
-    [SerializeField] private float maxSpeed = 25f;
-    [SerializeField] private float minSpeed = 5f;
+    // Speed properties for the projectile
+    [SerializeField] private float maxSpeed = 25f; // Maximum speed of the projectile
+    [SerializeField] private float minSpeed = 5f;  // Minimum speed of the projectile
 
     private int currentPower = 10; // Represents power level affecting speed
-    private float currentSpeed = 0f; // Current ball speed
-    private float speedChangeAmount; // Change in speed between power levels
+    private float currentSpeed = 0f; // Current speed of the projectile
+    private float speedChangeAmount; // Incremental change in speed per power level
 
     // Rotation angles for aiming
-    [SerializeField] private float maxXAngle = 45f;
+    [SerializeField] private float maxXAngle = 45f; // Maximum horizontal aiming angle
+    [SerializeField] private float yAngleChange = 10f; // Change rate for vertical aiming
+    private float currentYAngle = 0f; // Current vertical aiming angle
+    [SerializeField] private float xAngleChange = 10f; // Change rate for horizontal aiming
+    private float currentXAngle = 0f; // Current horizontal aiming angle
 
-    [SerializeField] private float yAngleChange = 10f;
-    private float currentYAngle = 0f;
-
-    [SerializeField] private float xAngleChange = 10f;
-    private float currentXAngle = 0f;
-
-    [SerializeField] private GameObject smokeEffect;
+    [SerializeField] private GameObject smokeEffect; // Effect when the ball resets
 
     [Header("Inputs")]
-    [SerializeField] private KeyCode inPowerUp;
-    [SerializeField] private KeyCode inPowerDown;
-    [SerializeField] private KeyCode inAngleUp;
-    [SerializeField] private KeyCode inAngleDown;
-    [SerializeField] private KeyCode inAngleLeft;
-    [SerializeField] private KeyCode inAngleRight;
-    [SerializeField] private KeyCode inShoot;
-    [SerializeField] private KeyCode inReset;
+    [SerializeField] private KeyCode inPowerUp;   // Key for increasing power
+    [SerializeField] private KeyCode inPowerDown; // Key for decreasing power
+    [SerializeField] private KeyCode inAngleUp;   // Key for increasing vertical angle
+    [SerializeField] private KeyCode inAngleDown; // Key for decreasing vertical angle
+    [SerializeField] private KeyCode inAngleLeft; // Key for rotating left
+    [SerializeField] private KeyCode inAngleRight;// Key for rotating right
+    [SerializeField] private KeyCode inShoot;     // Key for shooting
+    [SerializeField] private KeyCode inReset;     // Key for resetting position
 
-    private Vector3 originalPos; // The original position of the ball
+    private Vector3 originalPos; // Stores the player's original position for resets
 
-    private Rigidbody rb; // Rigidbody component reference
-    private TrajectoryLine tl; // Reference to the trajectory line
+    private Rigidbody rb; // Reference to Rigidbody component for physics interactions
+    private TrajectoryLine tl; // Reference to trajectory visualization component
 
-    private Quaternion savedRot = Quaternion.identity;
-    private bool gameEnded = false;
+    private Quaternion savedRot = Quaternion.identity; // Stores rotation for reset
+    private bool gameEnded = false; // Tracks whether the game has ended
 
     void Start()
     {
         updateTrajectoryLine();
-        originalPos = transform.position; // Set the balls initial position for reset
-        tl = GetComponent<TrajectoryLine>(); // Get TrajectoryLine component
-        rb = GetComponent<Rigidbody>(); // Get Rigidbody component
-        speedChangeAmount = (maxSpeed - minSpeed) / 9; // Determine step size for speed changes
-        currentSpeed = maxSpeed; // Start with maximum speed
+        originalPos = transform.position; // Stores the starting position
+        tl = GetComponent<TrajectoryLine>(); // Gets trajectory visualization component
+        rb = GetComponent<Rigidbody>(); // Gets Rigidbody component for movement
+        speedChangeAmount = (maxSpeed - minSpeed) / 9; // Calculates step size for speed increments
+        currentSpeed = maxSpeed; // Starts at max speed
 
         updateHUD(); // Updates the HUD
         gameEnded = false;
@@ -56,115 +55,107 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (gameEnded) { return; }
-        // Adjust speed with J/K keys
+        if (gameEnded) { return; } // Prevents further input processing if the game has ended
+
+        // Adjust speed based on input keys
         if (Input.GetKeyDown(inPowerUp)) { currentPower += 1; updateCurrentSpeed(speedChangeAmount); }
         if (Input.GetKeyDown(inPowerDown)) { currentPower -= 1; updateCurrentSpeed(-speedChangeAmount); }
 
-        // Adjust vertical aim angle with W/S keys
+        // Adjust aiming angles based on input keys
         if (Input.GetKey(inAngleUp)) { updateYAngle(yAngleChange); }
         if (Input.GetKey(inAngleDown)) { updateYAngle(-yAngleChange); }
-
-        // Adjust horizontal aim angle with A/D keys
         if (Input.GetKey(inAngleLeft)) { updateXAngle(-xAngleChange); }
         if (Input.GetKey(inAngleRight)) { updateXAngle(xAngleChange); }
 
-        // Shoot the ball with Space key (starts a coroutine)
+        // Shoot projectile using Space key
         if (Input.GetKeyDown(inShoot)) { StartCoroutine(shootBall()); }
-        // Reset the ball with R key (used for debugging)
+
+        // Reset position and properties using R key (mainly for debugging)
         if (Input.GetKeyDown(inReset)) { resetBall(); }
     }
 
-    // Returns the player's starting position
+    // Returns the player's original position
     public Vector3 getOriginalPos()
     {
         return originalPos;
     }
 
-    // Shoots the ball in the direction it's facing (as a coroutine so the timer works)
+    // Shoots the projectile in the direction it's facing
     IEnumerator shootBall()
     {
-        if (rb.isKinematic)
+        if (rb.isKinematic) // Ensures the ball is in a ready state before shooting
         {
-            savedRot = rb.rotation;
-            GameManager.instance.useShots(); // Uses up a shot
-            rb.isKinematic = false; // Enable physics
-            rb.velocity = rb.transform.forward.normalized * currentSpeed; // Apply velocity
-            yield return new WaitForSeconds(10); // Wait for 10 seconds
-            resetBall(); // Reset the ball
+            savedRot = rb.rotation; // Stores current rotation
+            GameManager.instance.useShots(); // Consumes a shot
+            rb.isKinematic = false; // Enables physics interactions
+            rb.velocity = rb.transform.forward.normalized * currentSpeed; // Sets movement velocity
+            yield return new WaitForSeconds(10); // Waits for 10 seconds before resetting
+            resetBall(); // Resets ball position and properties
         }
     }
 
-    // Resets the ball to its initial state
+    // Resets ball position, rotation, and physics properties
     public void resetBall()
     {
         if (!rb.isKinematic)
         {
-            tl.showIndicators(); // Hides the indicators
-            //currentXAngle = currentYAngle = 0f; // Resets the current aim angle
-            rb.velocity = new Vector3(0f, 0f, 0f); // Reset velocity
-            transform.position = originalPos; // Reset position
-            rb.rotation = savedRot;
-            rb.isKinematic = true; // Disable physics
-            StopAllCoroutines(); // Stops the shootBall() coroutine from resetting
-            smokeEffect.GetComponent<ParticleSystem>().Play();
+            tl.showIndicators(); // Refreshes trajectory indicators
+            rb.velocity = Vector3.zero; // Stops movement
+            transform.position = originalPos; // Resets to original position
+            rb.rotation = savedRot; // Resets rotation
+            rb.isKinematic = true; // Disables physics interactions
+            StopAllCoroutines(); // Cancels active coroutines
+            smokeEffect.GetComponent<ParticleSystem>().Play(); // Plays reset effect
 
+            // Determines if the game should end based on objectives or remaining shots
             if (GameManager.instance.objectivesLeft <= 0) { WinLose.instance.win(); gameEnded = true; }
             else if (GameManager.instance.shotsLeft <= 0) { WinLose.instance.lose(); gameEnded = true; }
         }
     }
 
-    // Updates vertical aim angle
+    // Adjusts vertical aiming angle
     void updateYAngle(float value)
     {
         currentYAngle += value * Time.deltaTime;
-        // Clamp vertical angle between 0 and 89 degrees
-        if (currentYAngle < 0) { currentYAngle = 0; }
-        else if (currentYAngle > 89) { currentYAngle = 89; }
+        currentYAngle = Mathf.Clamp(currentYAngle, 0, 89); // Restricts angle to valid range
 
         rb.rotation = Quaternion.Euler(-currentYAngle, currentXAngle, rb.rotation.z);
-        updateTrajectoryLine(); // Refresh trajectory visualization
+        updateTrajectoryLine(); // Refreshes trajectory visualization
     }
 
-    // Updates horizontal aim angle
+    // Adjusts horizontal aiming angle
     void updateXAngle(float value)
     {
         currentXAngle += value * Time.deltaTime;
-        // Clamp horizontal angle between -45 and 45 degrees
-        if (currentXAngle < -maxXAngle) { currentXAngle = -maxXAngle; }
-        else if (currentXAngle > maxXAngle) { currentXAngle = maxXAngle; }
+        currentXAngle = Mathf.Clamp(currentXAngle, -maxXAngle, maxXAngle); // Restricts angle to valid range
 
         rb.rotation = Quaternion.Euler(-currentYAngle, currentXAngle, rb.rotation.z);
-        updateTrajectoryLine(); // Refresh trajectory visualization
+        updateTrajectoryLine(); // Refreshes trajectory visualization
     }
 
-    // Updates the current speed of the ball based on power changes
+    // Adjusts projectile speed based on power level
     void updateCurrentSpeed(float value)
     {
         currentSpeed += value;
-        // Ensure speed stays within min and max limits
-        if (currentSpeed < minSpeed) { currentSpeed = minSpeed; currentPower = 1; }
-        else if (currentSpeed > maxSpeed) { currentSpeed = maxSpeed; currentPower = 10; }
+        currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, maxSpeed); // Keeps speed within valid range
 
-        updateTrajectoryLine(); // Refresh trajectory visualization
-        updateHUD();
+        updateTrajectoryLine(); // Refreshes trajectory visualization
+        updateHUD(); // Updates UI elements
     }
 
-    // Updates the trajectory visualization
+    // Refreshes trajectory visualization based on aiming and speed
     void updateTrajectoryLine()
     {
-        // makes sure tl exists and the ball isn't in motion
         if (tl != null && rb.isKinematic)
         {
             Vector3 u = rb.transform.forward.normalized * currentSpeed;
             tl.createPrediction(u.z, u.y, u.x, 0f, Physics.gravity.y, 0f);
             updateHUD();
-
-            tl.showIndicators(); // shows the indicators
+            tl.showIndicators(); // Displays trajectory indicators
         }
     }
 
-    // Updates the HUD
+    // Updates HUD elements with current aiming angles and power level
     public void updateHUD()
     {
         HUD.instance.setElevation((int)currentYAngle);
