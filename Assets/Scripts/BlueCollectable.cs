@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class BlueCollectable : Collectable
 {
+    [SerializeField] private int worth = 1;
+
     private void Awake()
     {
-        GameManager.instance.addObjectives();
+        // Increases the amount of objectives left
+        GameManager.instance.addObjectives(worth);
     }
 
     public override void collect()
     {
-        GameManager.instance.objectiveShot();
+        // Decreases the amount of objectives left
+        GameManager.instance.objectiveShot(worth);
     }
 }

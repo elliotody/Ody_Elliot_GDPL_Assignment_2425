@@ -10,15 +10,18 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Image logo;
     [SerializeField] private SceneAsset gameScene;
 
+    // Changes the logo if Funky Mode is toggled
     [Header("Funky Mode")]
     [SerializeField] private Sprite notFunky;
     [SerializeField] private Sprite funky;
 
+    // Loads the game scene
     public void playButtonPressed()
     {
         SceneManager.LoadScene(gameScene.name);
     }
 
+    // Toggles funky mode on and off
     public void funkyButtonPressed()
     {
         if (PersistentData.funkyMode)
@@ -33,6 +36,7 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    // Quits the game
     public void quitButtonPressed()
     {
         Application.Quit();

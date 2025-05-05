@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class GreenCollectable : Collectable
 {
-    [SerializeField] int extraShots = 3;
+    [SerializeField] private int extraShots = 3;
 
     public override void collect()
     {
+        // Adds more shots when the player hits it
         GameManager.instance.addShots(extraShots);
     }
 }
