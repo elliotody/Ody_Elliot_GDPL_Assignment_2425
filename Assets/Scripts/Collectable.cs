@@ -19,6 +19,7 @@ public abstract class Collectable : MonoBehaviour
     {
         // Runs the collect function and then destroys the object
         collect();
+        GameManager.instance.GetComponent<AudioSource>().Play();
         Destroy(gameObject);
     }
 }

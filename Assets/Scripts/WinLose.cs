@@ -29,6 +29,7 @@ public class WinLose : MonoBehaviour
         HUD.instance.gameObject.SetActive(false); // Hides the HUD
         gameObject.SetActive(true); // Displays win/lose UI
         loseScreen.gameObject.SetActive(false); // Ensures lose screen is hidden
+        winScreen.GetComponent<AudioSource>().Play(); // Plays the win SFX
         returnToMainMenu(3000); // Initiates return to main menu after 3 seconds
     }
 
@@ -38,6 +39,7 @@ public class WinLose : MonoBehaviour
         HUD.instance.gameObject.SetActive(false); // Hides the HUD
         gameObject.SetActive(true); // Displays win/lose UI
         winScreen.gameObject.SetActive(false); // Ensures win screen is hidden
+        loseScreen.GetComponent<AudioSource>().Play(); // Plays the lose SFX
         returnToMainMenu(3000); // Initiates return to main menu after 3 seconds
     }
 

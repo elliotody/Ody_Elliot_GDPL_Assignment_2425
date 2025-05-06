@@ -12,6 +12,7 @@ public class MainMenu : MonoBehaviour
 
     // Changes the logo if Funky Mode is toggled
     [Header("Funky Mode")]
+    [SerializeField] private AudioSource funkySound;
     [SerializeField] private Sprite notFunky;
     [SerializeField] private Sprite funky;
 
@@ -24,6 +25,8 @@ public class MainMenu : MonoBehaviour
     // Toggles funky mode on and off
     public void funkyButtonPressed()
     {
+        funkySound.mute = !funkySound.mute;
+
         if (PersistentData.funkyMode)
         {
             PersistentData.funkyMode = false;

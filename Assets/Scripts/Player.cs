@@ -20,7 +20,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float xAngleChange = 10f; // Change rate for horizontal aiming
     private float currentXAngle = 0f; // Current horizontal aiming angle
 
+    [Header("Effects and SFX")]
     [SerializeField] private GameObject smokeEffect; // Effect when the ball resets
+    [SerializeField] private AudioSource smokeSFX; // SFX for ball reset
+    [SerializeField] private AudioSource shootSFX; // SFX for ball shot
 
     [Header("Inputs")]
     [SerializeField] private KeyCode inPowerUp;   // Key for increasing power
@@ -39,6 +42,7 @@ public class Player : MonoBehaviour
 
     private Quaternion savedRot = Quaternion.identity; // Stores rotation for reset
     private bool gameEnded = false; // Tracks whether the game has ended
+    private bool WASDHidden = false; // Tracks whether the WASD Keys are hidden
 
     void Start()
     {
@@ -57,15 +61,17 @@ public class Player : MonoBehaviour
     {
         if (gameEnded) { return; } // Prevents further input processing if the game has ended
 
-        // Adjust speed based on input keys
-        if (Input.GetKeyDown(inPowerUp)) { currentPower += 1; updateCurrentSpeed(speedChangeAmount); }
-        if (Input.GetKeyDown(inPowerDown)) { currentPower -= 1; updateCurrentSpeed(-speedChangeAmount); }
-
         // Adjust aiming angles based on input keys
         if (Input.GetKey(inAngleUp)) { updateYAngle(yAngleChange); }
         if (Input.GetKey(inAngleDown)) { updateYAngle(-yAngleChange); }
         if (Input.GetKey(inAngleLeft)) { updateXAngle(-xAngleChange); }
         if (Input.GetKey(inAngleRight)) { updateXAngle(xAngleChange); }
+
+        if (!WASDHidden) { return; }
+
+        // Adjust speed based on input keys
+        if (Input.GetKeyDown(inPowerUp)) { currentPower += 1; updateCurrentSpeed(speedChangeAmount); }
+        if (Input.GetKeyDown(inPowerDown)) { currentPower -= 1; updateCurrentSpeed(-speedChangeAmount); }
 
         // Shoot projectile using Space key
         if (Input.GetKeyDown(inShoot)) { StartCoroutine(shootBall()); }
@@ -85,6 +91,7 @@ public class Player : MonoBehaviour
     {
         if (rb.isKinematic) // Ensures the ball is in a ready state before shooting
         {
+            shootSFX.Play(); // Does a SFX
             savedRot = rb.rotation; // Stores current rotation
             GameManager.instance.useShots(); // Consumes a shot
             rb.isKinematic = false; // Enables physics interactions
@@ -99,6 +106,7 @@ public class Player : MonoBehaviour
     {
         if (!rb.isKinematic)
         {
+            smokeSFX.Play(); // Does a SFX
             tl.showIndicators(); // Refreshes trajectory indicators
             rb.velocity = Vector3.zero; // Stops movement
             transform.position = originalPos; // Resets to original position
@@ -158,6 +166,18 @@ public class Player : MonoBehaviour
     // Updates HUD elements with current aiming angles and power level
     public void updateHUD()
     {
+        // Checks whether there is an input and if the WASD Keys have been hidden already
+        if (!WASDHidden && 
+            (
+            Input.GetKey(inAngleUp) 
+            || Input.GetKey(inAngleDown) 
+            || Input.GetKey(inAngleLeft) 
+            || Input.GetKey(inAngleRight)
+            )) 
+        { 
+            HUD.instance.hideWASD(); 
+            WASDHidden = true; 
+        }
         HUD.instance.setElevation((int)currentYAngle);
         HUD.instance.setHorizontal((int)currentXAngle);
         HUD.instance.setPower(currentPower);

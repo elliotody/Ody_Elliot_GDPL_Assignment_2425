@@ -13,6 +13,7 @@ public class HUD : MonoBehaviour
 
     [Header("HUD Elements")]
     [SerializeField] private GameObject extraInfo;
+    [SerializeField] private GameObject WASDKeys;
     [SerializeField] private TextMeshProUGUI shotsLeft;
     [SerializeField] private TextMeshProUGUI targetsLeft;
     [SerializeField] private TextMeshProUGUI elevation;
@@ -86,5 +87,11 @@ public class HUD : MonoBehaviour
     public void infoButtonClicked()
     {
         extraInfo.SetActive(!extraInfo.activeInHierarchy);
+    }
+
+    // Hides the WASD Keys
+    public void hideWASD()
+    {
+        WASDKeys.SetActive(false);
     }
 }
