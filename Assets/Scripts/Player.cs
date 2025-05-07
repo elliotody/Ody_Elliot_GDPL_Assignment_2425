@@ -61,6 +61,11 @@ public class Player : MonoBehaviour
     {
         if (gameEnded) { return; } // Prevents further input processing if the game has ended
 
+        // Reset position and properties using R key
+        if (Input.GetKeyDown(inReset)) { resetBall(); }
+
+        if (!rb.isKinematic) { return; } // Makes sure the ball is on the platform
+
         // Adjust aiming angles based on input keys
         if (Input.GetKey(inAngleUp)) { updateYAngle(yAngleChange); }
         if (Input.GetKey(inAngleDown)) { updateYAngle(-yAngleChange); }
@@ -75,9 +80,6 @@ public class Player : MonoBehaviour
 
         // Shoot projectile using Space key
         if (Input.GetKeyDown(inShoot)) { StartCoroutine(shootBall()); }
-
-        // Reset position and properties using R key (mainly for debugging)
-        if (Input.GetKeyDown(inReset)) { resetBall(); }
     }
 
     // Returns the player's original position
