@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 2493520840942487922}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.048, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -116,6 +116,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4639749118707914941}
   - component: {fileID: 718467099862724361}
+  - component: {fileID: 846232208615164194}
+  - component: {fileID: 2948311238999473935}
   m_Layer: 0
   m_Name: Windmill
   m_TagString: Untagged
@@ -136,9 +138,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6771850587139361230}
   - {fileID: 8700819715492455142}
   - {fileID: 2438266187100423648}
-  - {fileID: 6771850587139361230}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &718467099862724361
@@ -168,6 +170,48 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &846232208615164194
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5362900941915561974}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.16, y: 0.1, z: 0.7}
+  m_Center: {x: 0.28, y: 0.1, z: 0}
+--- !u!65 &2948311238999473935
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5362900941915561974}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.16, y: 0.1, z: 0.7}
+  m_Center: {x: -0.28, y: 0.1, z: 0}
 --- !u!1001 &2136717908107919534
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -186,7 +230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7284749364778082888, guid: b407abe0d5b721746acf9ea06e60381f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.826
+      value: 0.87399995
       objectReference: {fileID: 0}
     - target: {fileID: 7284749364778082888, guid: b407abe0d5b721746acf9ea06e60381f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -244,7 +288,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c4ba265cc130c6443bd0c40fff5279cd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.9
+      value: 0.94799995
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c4ba265cc130c6443bd0c40fff5279cd, type: 3}
       propertyPath: m_LocalPosition.z

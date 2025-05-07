@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,7 +7,7 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private Image logo;
-    [SerializeField] private SceneAsset gameScene;
+    [SerializeField] private int gameScene;
 
     // Changes the logo if Funky Mode is toggled
     [Header("Funky Mode")]
@@ -19,7 +18,7 @@ public class MainMenu : MonoBehaviour
     // Loads the game scene
     public void playButtonPressed()
     {
-        SceneManager.LoadScene(gameScene.name);
+        SceneManager.LoadScene(gameScene);
     }
 
     // Toggles funky mode on and off

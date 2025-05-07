@@ -47,6 +47,6 @@ public class WinLose : MonoBehaviour
     async void returnToMainMenu(int time)
     {
         await Task.Delay(time); // Waits for the specified time before proceeding
-        SceneManager.LoadScene(HUD.instance.mainMenu.name); // Loads the main menu scene
+        SceneManager.LoadScene(HUD.instance.mainMenu); // Loads the main menu scene
     }
 }

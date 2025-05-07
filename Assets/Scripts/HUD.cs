@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine;
-using UnityEditor;
 
 public class HUD : MonoBehaviour
 {
@@ -23,7 +22,7 @@ public class HUD : MonoBehaviour
 
     [Header("Menus")]
     [SerializeField] private Canvas pauseMenu;
-    [SerializeField] public SceneAsset mainMenu;
+    [SerializeField] public int mainMenu;
 
     // Sets up the singleton 
     private void Awake()
@@ -49,7 +48,7 @@ public class HUD : MonoBehaviour
     public void onMainMenuPressed()
     {
         Time.timeScale = 1.0f;
-        SceneManager.LoadScene(mainMenu.name);
+        SceneManager.LoadScene(mainMenu);
     }
 
     // Sets the text value for shots left

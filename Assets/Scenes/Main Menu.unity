@@ -661,7 +661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   logo: {fileID: 1640882448}
-  gameScene: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
+  gameScene: 1
   funkySound: {fileID: 1537781789}
   notFunky: {fileID: 21300000, guid: 9c39180120768d846947b948b14d43c8, type: 3}
   funky: {fileID: 21300000, guid: b3f8925428ad90a439476cef2f25a7e1, type: 3}
