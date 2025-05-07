@@ -2139,7 +2139,7 @@ Camera:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_RenderingPath: -1
+  m_RenderingPath: 1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
@@ -6090,7 +6090,7 @@ MonoBehaviour:
   power: {fileID: 2431006274591210339}
   powerSlider: {fileID: 1134549092}
   pauseMenu: {fileID: 1519251345}
-  mainMenu: {fileID: 102900000, guid: a34f8888bc9b84145afda716a451dc53, type: 3}
+  mainMenu: 0
 --- !u!222 &5655053808346042451
 CanvasRenderer:
   m_ObjectHideFlags: 0
