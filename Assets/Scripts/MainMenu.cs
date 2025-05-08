@@ -24,7 +24,7 @@ public class MainMenu : MonoBehaviour
     // Toggles funky mode on and off
     public void funkyButtonPressed()
     {
-        funkySound.mute = !funkySound.mute;
+        funkySound.mute = PersistentData.funkyMode;
 
         if (PersistentData.funkyMode)
         {
