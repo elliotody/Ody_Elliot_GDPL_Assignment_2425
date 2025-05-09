@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (gameEnded) { return; } // Prevents further input processing if the game has ended
+        if (gameEnded || Time.timeScale == 0f) { return; } // Prevents further input processing if the game has ended or if the game is paused
 
         // Reset position and properties using R key
         if (Input.GetKeyDown(inReset)) { resetBall(); }
@@ -79,7 +79,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(inPowerDown)) { currentPower -= 1; updateCurrentSpeed(-speedChangeAmount); }
 
         // Shoot projectile using Space key
-        if (Input.GetKeyDown(inShoot)) { StartCoroutine(shootBall()); }
+        if (Input.GetKeyDown(inShoot) && rb.isKinematic) { StartCoroutine(shootBall()); }
     }
 
     // Returns the player's original position
@@ -91,16 +91,13 @@ public class Player : MonoBehaviour
     // Shoots the projectile in the direction it's facing
     IEnumerator shootBall()
     {
-        if (rb.isKinematic) // Ensures the ball is in a ready state before shooting
-        {
-            shootSFX.Play(); // Does a SFX
-            savedRot = rb.rotation; // Stores current rotation
-            GameManager.instance.useShots(); // Consumes a shot
-            rb.isKinematic = false; // Enables physics interactions
-            rb.velocity = rb.transform.forward.normalized * currentSpeed; // Sets movement velocity
-            yield return new WaitForSeconds(10); // Waits for 10 seconds before resetting
-            resetBall(); // Resets ball position and properties
-        }
+        shootSFX.Play(); // Does a SFX
+        savedRot = rb.rotation; // Stores current rotation
+        GameManager.instance.useShots(); // Consumes a shot
+        rb.isKinematic = false; // Enables physics interactions
+        rb.velocity = rb.transform.forward.normalized * currentSpeed; // Sets movement velocity
+        yield return new WaitForSeconds(10); // Waits for 10 seconds before resetting
+        resetBall(); // Resets ball position and properties
     }
 
     // Resets ball position, rotation, and physics properties
@@ -113,8 +110,8 @@ public class Player : MonoBehaviour
             rb.velocity = Vector3.zero; // Stops movement
             transform.position = originalPos; // Resets to original position
             rb.rotation = savedRot; // Resets rotation
-            rb.isKinematic = true; // Disables physics interactions
             StopAllCoroutines(); // Cancels active coroutines
+            rb.isKinematic = true; // Disables physics 
             smokeEffect.GetComponent<ParticleSystem>().Play(); // Plays reset effect
 
             // Determines if the game should end based on objectives or remaining shots
