@@ -146,7 +146,7 @@ public class Player : MonoBehaviour
     // Adjusts projectile speed based on power level
     void updateCurrentSpeed(float value)
     {
-        currentPower = Mathf.FloorToInt(Mathf.Clamp(currentPower, 0f, 10f));
+        currentPower = Mathf.FloorToInt(Mathf.Clamp(currentPower, 1f, 10f));
 
         currentSpeed += value;
         currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, maxSpeed); // Keeps speed within valid range
